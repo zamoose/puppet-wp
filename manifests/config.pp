@@ -3,17 +3,18 @@ define wp::config (
 	$dbname,
 	$dbuser,
 	$dbpass,
-	$dbhost			= false,
+	$dbhost		= false,
 	$dbprefix		= false,
 	$dbcharset		= false,
 	$dbcollate		= false,
-	$locale			= false
+	$locale			= false,
+	$extraphp		= false
 ) {
 	include wp::cli
 
 	$config = ''
 
-	if $dbhost != false {
+	if ( $dbhost != false ) {
 		$db_host = "--dbhost='$dbhost' "
 	}
 
@@ -33,6 +34,9 @@ define wp::config (
 		$db_locale = "--locale='$locale' "
 	}
 
+	if ( $extraphp != false ) {
+		$extra_php = "--extraphp $extraphp"
+	}
 	exec {"wp core config $location":
 		command => "/usr/bin/wp core config --dbname='$dbname' --dbuser='$dbuser' --dbpass='$dbpass' $db_host $db_prefix $db_charset $db_collate $db_locale ",
 		cwd => $location,
