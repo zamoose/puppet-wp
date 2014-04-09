@@ -8,18 +8,22 @@ commands as well as installing the WP CLI binaries as needed.
 
 	# (Assuming your modules directory is "modules/")
 	# As a standalone repo
-    git clone https://github.com/rmccue/puppet-wp.git modules/wp
+    git clone https://github.com/zamoose/puppet-wp.git modules/wp
 
     # As a submodule
-    git submodule add https://github.com/rmccue/puppet-wp.git modules/wp
-
-### Via the Puppet Forge
-Puppet WP-CLI is also available via [Puppet Forge](http://forge.puppetlabs.com/rmccue/wp).
-
-    puppet module install rmccue/wp
+    git submodule add https://github.com/zamoose/puppet-wp.git modules/wp
 
 ## Usage
 
+	# Download WordPress
+	wp::download { '/vagrant/wp': }
+
+	# Create wp-config.php
+	wp::config { '/vagrant/wp':
+		dbname => 'wordpress',
+		dbuser => 'wordpress',
+		dbpass => 'wordpress'
+	}
 	# Setup the site
 	wp::site {'/vagrant/wp':
 		# location => '/vagrant/wp',
@@ -66,7 +70,7 @@ Puppet WP-CLI is also available via [Puppet Forge](http://forge.puppetlabs.com/r
 ## License
 This code is licensed under the MIT license.
 
-Copyright (c) 2012-2013 Ryan McCue
+Copyright (c) 2012-2013 Ryan McCue, 2014 Doug Stewart
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
