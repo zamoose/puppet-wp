@@ -10,7 +10,7 @@ class wp::cli (
 		'CentOS'		=> 'php',
 		/^(Debian|Ubuntu)$/	=> 'php5',
 		default			=> 'php',
-	} 
+	}
 
 	if 'installed' == $ensure or 'present' == $ensure {
 		# Create the install path
@@ -20,8 +20,8 @@ class wp::cli (
 
 		# Grab the phar
 		exec{ 'wp-cli download':
-			command => "/usr/bin/curl -o $install_path/bin/wp -L https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar",
-			require => [ Package[ 'curl' ], File[ $install_path ] ],
+			command => "/usr/bin/curl -k -o $install_path/bin/wp -L https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar",
+			require => [ Package[ 'curl' ], File[ "$install_path/bin" ] ],
 			creates => "$install_path/bin/wp",
 			unless	=> "/usr/bin/test ${version} = `/usr/bin/wp --version | cut -f2 -d' '` ",
 		}
