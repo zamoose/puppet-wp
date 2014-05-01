@@ -1,20 +1,32 @@
 define wp::theme (
+	$slug = $title,
 	$location,
 	$ensure = enabled
 ) {
-	#$name = $title,
 	include wp::cli
 
 	case $ensure {
 		enabled: {
-			$command = "activate $title"
+			if ("/usr/bin/wp theme is-installed $slug"){
+				wp::command { "$location theme install $slug":
+					location => $location,
+					command => "theme install $slug",
+				}
+			}
+			wp::command { "$location theme activate $slug":
+				location	=> $location,
+				command	=> "theme activate $slug",
+				require	=> Wp::Command["$location theme install $slug"];
+			}
+		}
+		installed: {
+			wp::command { "$location theme install $slug":
+				location => $location,
+				command => "theme install $slug",
+			}
 		}
 		default: {
 			fail("Invalid ensure for wp::theme")
 		}
-	}
-	wp::command { "$location theme $command":
-		location => $location,
-		command => "theme $command"
 	}
 }
