@@ -40,6 +40,7 @@ define wp::config (
 	exec {"wp core config $location":
 		command => "/usr/bin/wp core config --dbname='$dbname' --dbuser='$dbuser' --dbpass='$dbpass' $db_host $db_prefix $db_charset $db_collate $db_locale $extra_php",
 		cwd => $location,
+		user => $::wp::user,
 		require => [ Class['wp::cli'] ],
 		creates => "$location/wp-config.php"
 	}
