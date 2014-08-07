@@ -7,22 +7,22 @@ define wp::theme (
 
 	case $ensure {
 		enabled: {
-			if ("/usr/bin/wp theme is-installed $slug"){
-				wp::command { "$location theme install $slug":
+			if ("/usr/bin/wp theme is-installed \"$slug\""){
+				wp::command { "$location theme install \"$slug\"":
 					location => $location,
-					command => "theme install $slug",
+					command => "theme install \"$slug\"",
 				}
 			}
-			wp::command { "$location theme activate $slug":
+			wp::command { "$location theme activate \"$slug\"":
 				location	=> $location,
-				command	=> "theme activate $slug",
-				require	=> Wp::Command["$location theme install $slug"];
+				command	=> "theme activate \"$slug\"",
+				require	=> Wp::Command["$location theme install \"$slug\""];
 			}
 		}
 		installed: {
-			wp::command { "$location theme install $slug":
+			wp::command { "$location theme install \"$slug\"":
 				location => $location,
-				command => "theme install $slug",
+				command => "theme install \"$slug\"",
 			}
 		}
 		default: {
