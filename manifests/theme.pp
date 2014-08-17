@@ -20,9 +20,11 @@ define wp::theme (
 			}
 		}
 		installed: {
-			wp::command { "$location theme install \"$slug\"":
-				location => $location,
-				command => "theme install \"$slug\"",
+			if ("/usr/bin/wp theme is-installed \"$slug\""){
+				wp::command { "$location theme install \"$slug\"":
+					location => $location,
+					command => "theme install \"$slug\"",
+				}
 			}
 		}
 		default: {
